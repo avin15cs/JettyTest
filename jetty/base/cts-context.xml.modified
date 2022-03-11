@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection">
+  <Call name="addHandler">
+    <Arg>
+      <New class="org.eclipse.jetty.servlet.ServletContextHandler">
+        <Set name="contextPath">/cts</Set>
+        <Set name="resourceBase"><Property name="jetty.base" default="." />/</Set>
+        <Set name="sessionHandler">
+          <New class="org.eclipse.jetty.server.session.SessionHandler"/>
+        </Set>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.TransformationServlet</Arg>
+          <Arg>/*</Arg>
+		  <Call name="setInitParameter">
+            <Arg>fileContentBase1</Arg>
+            <Arg><Property name="documentum.cts.cache.dir" default="." />/</Arg>
+          </Call>
+		  <Call name="setInitParameter">
+            <Arg>fileContentBase2</Arg>
+            <Arg><Property name="documentum.cts.resource.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.MonitorServlet</Arg>
+          <Arg>/monitor/*</Arg>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.BlazonJobServlet</Arg>
+          <Arg>/blazon/*</Arg>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.CapabilityServlet</Arg>
+          <Arg>/getCapabilities/*</Arg>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.CanExecuteServlet</Arg>
+          <Arg>/canExecute/*</Arg>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.GetOccupancyServlet</Arg>
+          <Arg>/getOccupancy/*</Arg>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.CleanupJobServlet</Arg>
+          <Arg>/delete/*</Arg>
+		  <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.cts.cache.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.FileProxyServlet</Arg>
+          <Arg>/output/*</Arg>
+          <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.cts.cache.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+        <Call name="addServlet">
+          <Arg>com.documentum.cts.impl.services.webserver.services.FileProxyServlet</Arg>
+          <Arg>/resource/*</Arg>
+          <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.cts.resource.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+      </New>
+    </Arg>
+  </Call>
+</Configure>

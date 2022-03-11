@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection">
+  <Call name="addHandler">
+    <Arg>
+      <New class="org.eclipse.jetty.servlet.ServletContextHandler">
+        <Set name="contextPath">/cts</Set>
+        <Set name="resourceBase"><Property name="jetty.base" default="." />/</Set>
+        <Set name="sessionHandler">
+          <New class="org.eclipse.jetty.server.session.SessionHandler"/>
+        </Set>
+		<Call name="addServlet">
+          <Arg>com.Test.FileProxyServlet</Arg>
+          <Arg>/output/*</Arg>
+          <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.cache.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+		<Call name="addServlet">
+          <Arg>com.Test.FileProxyServlet</Arg>
+          <Arg>/resource/*</Arg>
+          <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.resource.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+		<Call name="addServlet">
+          <Arg>com.Test.CleanupJobServlet</Arg>
+          <Arg>/delete/*</Arg>
+          <Call name="setInitParameter">
+            <Arg>fileContentBase</Arg>
+            <Arg><Property name="documentum.cache.dir" default="." />/</Arg>
+          </Call>
+        </Call>
+      </New>
+    </Arg>
+  </Call>
+</Configure>
